@@ -17,12 +17,12 @@ import java.util.stream.Collectors;
 public class GlobeSortServer {
     private Server server;
 
-	private static int MAX_MESSAGE_SIZE = 100 * 1024 * 1024;
+    private static int MAX_MESSAGE_SIZE = 100 * 1024 * 1024;
 
     private void start(String ip, int port) throws IOException {
         server = NettyServerBuilder.forAddress(new InetSocketAddress(ip, port))
                     .addService(new GlobeSortImpl())
-					.maxMessageSize(MAX_MESSAGE_SIZE)
+                    .maxMessageSize(MAX_MESSAGE_SIZE)
                     .executor(Executors.newFixedThreadPool(10))
                     .build()
                     .start();
@@ -86,12 +86,20 @@ public class GlobeSortServer {
 
         @Override
         public void sortIntegers(IntArray req, final StreamObserver<IntArray> responseObserver) {
+            long start = System.nanoTime();
+
             Integer[] values = req.getValuesList().toArray(new Integer[req.getValuesList().size()]);
             Arrays.sort(values);
             IntArray.Builder responseBuilder = IntArray.newBuilder();
             for(Integer val : values) {
                 responseBuilder.addValues(val);
             }
+
+            long end = System.nanoTime();
+            long duration = (end - start);
+
+            responseBuilder.setTime(duration);
+
             IntArray response = responseBuilder.build();
             responseObserver.onNext(response);
             responseObserver.onCompleted();
