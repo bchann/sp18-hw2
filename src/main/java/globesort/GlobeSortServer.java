@@ -95,14 +95,14 @@ public class GlobeSortServer {
                 responseBuilder.addValues(val);
             }
 
-            long end = System.nanoTime();
-            long duration = (end - start);
-
-            responseBuilder.setTime(duration);
-
             IntArray response = responseBuilder.build();
             responseObserver.onNext(response);
             responseObserver.onCompleted();
+
+            long end = System.nanoTime();
+            long duration = (end - start) / 1000000;
+
+            System.out.println("Sort completed in: " + duration);
         }
     }
 }
