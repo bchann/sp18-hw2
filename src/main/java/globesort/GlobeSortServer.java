@@ -79,15 +79,9 @@ public class GlobeSortServer {
     static class GlobeSortImpl extends GlobeSortGrpc.GlobeSortImplBase {
         @Override
         public void ping(Empty req, final StreamObserver<Empty> responseObserver) {
-            long start = System.nanoTime();
-
             Empty response = Empty.newBuilder().build();
             responseObserver.onNext(response);
             responseObserver.onCompleted();
-
-            long end = System.nanoTime();
-            double duration = (double)(end - start) / 1000000000.0;
-            System.out.println("Ping completed in: " + duration);
         }
 
         @Override
@@ -101,13 +95,12 @@ public class GlobeSortServer {
                 responseBuilder.addValues(val);
             }
 
-            IntArray response = responseBuilder.build();
+            long end = System.nanoTime();
+            double duration = ((double)(end - start)) / 1000000000.0;
+
+            IntArray response = responseBuilder.setTime(duration).build();
             responseObserver.onNext(response);
             responseObserver.onCompleted();
-
-            long end = System.nanoTime();
-            double duration = (double)(end - start) / 1000000000.0;
-            System.out.println("Sort completed in: " + duration);
         }
     }
 }
