@@ -86,7 +86,7 @@ public class GlobeSortServer {
             responseObserver.onCompleted();
 
             long end = System.nanoTime();
-            long duration = (end - start) / 1000000;
+            double duration = (double)(end - start) / 1000000000.0;
             System.out.println("Ping completed in: " + duration);
         }
 
@@ -106,7 +106,7 @@ public class GlobeSortServer {
             responseObserver.onCompleted();
 
             long end = System.nanoTime();
-            long duration = (end - start) / 1000000;
+            double duration = (double)(end - start) / 1000000000.0;
             System.out.println("Sort completed in: " + duration);
         }
     }
