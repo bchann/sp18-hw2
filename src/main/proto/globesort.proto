@@ -13,5 +13,4 @@ message Empty { }
 
 message IntArray {
   repeated int32 values = 1;
-  long time = 0;
 }
