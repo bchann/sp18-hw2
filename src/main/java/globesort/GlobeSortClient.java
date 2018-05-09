@@ -57,7 +57,7 @@ public class GlobeSortClient {
         duration = ((double)(end - start)) / 1000000000.0;
 
         System.out.println("App throughput: " + duration);
-        double networkDur = (double)(duration - response.getTime()) / 2.0;
+        double networkDur = (double)(duration - (double)(response.getTime() / 1000000000.0)) / 2.0;
         System.out.println("Network throughput: " + networkDur);
     }
 
